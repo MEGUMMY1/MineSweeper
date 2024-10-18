@@ -1,0 +1,20 @@
+.board {
+  display: grid;
+  gap: 1px;
+
+  &.beginner {
+    grid-template-columns: repeat(8, 40px);
+  }
+
+  &.intermediate {
+    grid-template-columns: repeat(16, 30px);
+  }
+
+  &.expert {
+    grid-template-columns: repeat(32, 20px);
+  }
+
+  &.custom {
+    grid-template-columns: repeat(var(--columns), 1fr);
+  }
+}
