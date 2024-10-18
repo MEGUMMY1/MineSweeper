@@ -1,0 +1,16 @@
+@font-face {
+  font-family: "bitbit";
+  src: url("//cdn.df.nexon.com/img/common/font/DNFBitBit-Regular.woff"),
+    url("//cdn.df.nexon.com/img/common/font/DNFBitBit-Regular.woff2");
+}
+
+@font-face {
+  font-family: "Digital Dismay Regular";
+  font-style: normal;
+  font-weight: normal;
+  src: url("/assets/Digital_Dismay.woff") format("woff");
+}
+
+* {
+  font-family: "bitbit";
+}

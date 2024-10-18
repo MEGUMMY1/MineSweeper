@@ -44,6 +44,7 @@ const minesweeperSlice = createSlice({
       // 첫 클릭 위치를 제외하고 지뢰 배치
       placeMines(state, action.payload.firstClickX, action.payload.firstClickY);
       state.gameStarted = false;
+      state.gameOver = false;
       state.timer = 0;
     },
     revealCell: (state, action: PayloadAction<{ x: number; y: number }>) => {
@@ -59,7 +60,6 @@ const minesweeperSlice = createSlice({
 
         if (cell.isMine) {
           state.gameOver = true; // 지뢰 클릭 시 게임 종료
-          state.gameStarted = false;
           revealAllMines(state);
         } else {
           if (cell.neighborCount === 0) {
@@ -76,7 +76,7 @@ const minesweeperSlice = createSlice({
 
     flagCell: (state, action: PayloadAction<{ x: number; y: number }>) => {
       const cell = state.board[action.payload.y][action.payload.x];
-      if (!cell.isRevealed) {
+      if (!cell.isRevealed && !state.gameOver) {
         cell.isFlagged = !cell.isFlagged;
       }
     },
@@ -85,12 +85,34 @@ const minesweeperSlice = createSlice({
         state.timer += 1;
       }
     },
-    resetGame: (state) => {
-      state.board = [];
-      state.gameStarted = false;
+    resetGame: (
+      state,
+      action: PayloadAction<{
+        width: number;
+        height: number;
+        mineCount: number;
+        difficulty: string;
+      }>
+    ) => {
+      state.width = action.payload.width;
+      state.height = action.payload.height;
+      state.mineCount = action.payload.mineCount;
+      state.difficulty = action.payload.difficulty;
       state.timer = 0;
-      state.difficulty = "intermediate";
+
+      state.board = Array.from({ length: state.height }, () =>
+        Array.from({ length: state.width }, () => ({
+          isRevealed: false,
+          isMine: false,
+          isFlagged: false,
+          neighborCount: 0,
+        }))
+      );
+
+      state.gameStarted = false;
       state.gameOver = false;
+      state.timer = 0;
+      placeMines(state, -1, -1);
     },
   },
 });
