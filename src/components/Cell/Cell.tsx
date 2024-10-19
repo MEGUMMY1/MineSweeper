@@ -3,10 +3,14 @@ import { RootState } from "../../redux/store";
 import { flagCell, revealCell } from "../../redux/minesweeperSlice";
 import { CellProps } from "../../types/types";
 import styles from "./Cell.module.scss";
+import { useState } from "react";
 
 export default function Cell({ cell, x, y }: CellProps) {
   const dispatch = useDispatch();
-  const { gameOver } = useSelector((state: RootState) => state.minesweeper);
+  const { gameOver, board } = useSelector((state: RootState) => state.minesweeper);
+
+  const [leftMouseDown, setLeftMouseDown] = useState(false);
+  const [rightMouseDown, setRightMouseDown] = useState(false);
 
   const handleClick = () => {
     if (!cell.isRevealed && !gameOver) {
@@ -18,6 +22,43 @@ export default function Cell({ cell, x, y }: CellProps) {
     e.preventDefault();
     if (!cell.isRevealed && !gameOver) {
       dispatch(flagCell({ x, y }));
+    }
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (e.button === 0) {
+      setLeftMouseDown(true);
+    } else if (e.button === 2) {
+      setRightMouseDown(true);
+    }
+
+    // 양쪽 클릭 기능 (Area Open)
+    if (leftMouseDown && rightMouseDown) {
+      openAdjacentCells();
+    }
+  };
+
+  const handleMouseUp = (e: React.MouseEvent) => {
+    if (e.button === 0) {
+      setLeftMouseDown(false);
+    } else if (e.button === 2) {
+      setRightMouseDown(false);
+    }
+  };
+
+  const openAdjacentCells = () => {
+    for (let i = -1; i <= 1; i++) {
+      for (let j = -1; j <= 1; j++) {
+        const newX = x + j;
+        const newY = y + i;
+
+        if (newX >= 0 && newX < board[0].length && newY >= 0 && newY < board.length) {
+          const adjacentCell = board[newY][newX];
+          if (!adjacentCell.isRevealed && !adjacentCell.isFlagged) {
+            dispatch(revealCell({ x: newX, y: newY }));
+          }
+        }
+      }
     }
   };
 
@@ -36,7 +77,13 @@ export default function Cell({ cell, x, y }: CellProps) {
   };
 
   return (
-    <div className={getCellClass()} onClick={handleClick} onContextMenu={handleContextMenu}>
+    <div
+      className={getCellClass()}
+      onClick={handleClick}
+      onContextMenu={handleContextMenu}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+    >
       {cell.isRevealed && !cell.isMine && cell.neighborCount > 0 ? cell.neighborCount : ""}
       {cell.isRevealed && cell.isMine ? "💣" : ""}
       {cell.isFlagged && !cell.isRevealed ? "🚩" : ""}
