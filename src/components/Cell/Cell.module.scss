@@ -1,20 +1,37 @@
 .cell {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 18px;
-  background-color: #e5e5e5;
-  border: 1px solid #aaa;
+  background-color: #c9c9c9;
+  border: 3px solid #636363;
+  border-top-color: #f8f8f8;
+  border-left-color: #f8f8f8;
+
   cursor: pointer;
+
+  transition: all 0.1s ease-in-out;
+
+  &:hover {
+    background-color: #999999;
+  }
+
+  &:active {
+    border-top-color: #444;
+    border-left-color: #444;
+    border-bottom-color: #f8f8f8;
+    border-right-color: #f8f8f8;
+  }
 
   &.opened {
     background-color: #fff;
+    box-shadow: none;
   }
 
   &.mine {
-    background-color: #e07a5f;
+    background-color: #d87c7c;
   }
 
   &.number1 {

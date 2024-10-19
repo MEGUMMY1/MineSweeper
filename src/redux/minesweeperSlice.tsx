@@ -51,12 +51,14 @@ const minesweeperSlice = createSlice({
       const { x, y } = action.payload;
       const cell = state.board[y][x];
 
+      // 첫 클릭 시 게임 시작
+      if (!state.gameStarted) {
+        placeMines(state, x, y);
+        state.gameStarted = true;
+      }
+
       if (!cell.isRevealed && !cell.isFlagged && !state.gameOver) {
         cell.isRevealed = true;
-
-        if (!state.gameStarted) {
-          state.gameStarted = true; // 클릭 시 타이머 시작
-        }
 
         if (cell.isMine) {
           state.gameOver = true; // 지뢰 클릭 시 게임 종료
@@ -112,7 +114,6 @@ const minesweeperSlice = createSlice({
       state.gameStarted = false;
       state.gameOver = false;
       state.timer = 0;
-      placeMines(state, -1, -1);
     },
   },
 });

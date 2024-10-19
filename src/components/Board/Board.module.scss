@@ -1,9 +1,11 @@
 .board {
   display: grid;
-  gap: 1px;
+  border: 3px solid #636363;
+  border-right-color: #f8f8f8;
+  border-bottom-color: #f8f8f8;
 
   &.beginner {
-    grid-template-columns: repeat(8, 40px);
+    grid-template-columns: repeat(8, 30px);
   }
 
   &.intermediate {
@@ -11,7 +13,7 @@
   }
 
   &.expert {
-    grid-template-columns: repeat(32, 20px);
+    grid-template-columns: repeat(32, 30px);
   }
 
   &.custom {

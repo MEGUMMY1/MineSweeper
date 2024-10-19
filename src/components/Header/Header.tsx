@@ -3,6 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../redux/store";
 import { incrementTimer, resetGame } from "../../redux/minesweeperSlice";
 import styles from "./Header.module.scss";
+import win_icon from "../../assets/win.svg";
+import lose_icon from "../../assets/lose.svg";
+import restart_icon from "../../assets/restart.svg";
 
 export default function Header() {
   const { timer, mineCount, board, width, height, difficulty, gameOver } = useSelector(
@@ -29,15 +32,22 @@ export default function Header() {
     };
   }, [gameOver, remainingMines, dispatch]);
 
-  const buttonText = remainingMines === 0 ? "You Win" : gameOver ? "Game Over" : "Restart";
+  const buttonImageSrc = remainingMines === 0 ? win_icon : gameOver ? lose_icon : restart_icon;
 
   return (
     <div className={styles.container}>
-      <div className={styles.mines}>{remainingMines}</div>
-      <button className={styles.reset_button} onClick={handleReset}>
-        {buttonText}
-      </button>
-      <div className={styles.timer}>{timer}</div>
+      <div className={styles.info_container}>
+        <div className={styles.mines}>{remainingMines}</div>
+        <img
+          src={buttonImageSrc}
+          alt="Game Status"
+          className={styles.reset_button}
+          onClick={handleReset}
+          role="button"
+          tabIndex={0}
+        />
+        <div className={styles.timer}>{timer}</div>
+      </div>
     </div>
   );
 }

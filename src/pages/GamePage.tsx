@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import Board from "../components/Board/Board";
 import DifficultySelector from "../components/DifficultySelector/DifficultySelector";
 import { startGame } from "../redux/minesweeperSlice";
+import styles from "./GamePage.module.scss";
 
 export default function GamePage() {
   const dispatch = useDispatch();
@@ -21,10 +22,14 @@ export default function GamePage() {
   }, [dispatch]);
 
   return (
-    <div>
-      <h1>Minesweeper</h1>
-      <DifficultySelector />
-      <Board />
+    <div className={styles.background}>
+      <div className={styles.container}>
+        <h1 className={styles.title}>MINESWEEPER</h1>
+        <div className={styles.wrapper}>
+          <DifficultySelector />
+          <Board />
+        </div>
+      </div>
     </div>
   );
 }

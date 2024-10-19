@@ -1,0 +1,34 @@
+.background {
+  width: 100%;
+  height: 100vh;
+  background-color: #474747;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  color: #00754b;
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #c9c9c9;
+  border: 3px solid #636363;
+  border-left-color: #f8f8f8;
+  border-top-color: #f8f8f8;
+  padding: 10px;
+}
