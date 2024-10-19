@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { MinesweeperState } from "../types/types";
 
+const storedDifficulty = localStorage.getItem("difficulty") || "intermediate";
+
 const initialState: MinesweeperState = {
   board: [],
   gameStarted: false,
@@ -8,7 +10,7 @@ const initialState: MinesweeperState = {
   mineCount: 40,
   width: 16,
   height: 16,
-  difficulty: "intermediate",
+  difficulty: storedDifficulty,
   gameOver: false,
 };
 
@@ -31,6 +33,9 @@ const minesweeperSlice = createSlice({
       state.height = action.payload.height;
       state.mineCount = action.payload.mineCount;
       state.difficulty = action.payload.difficulty;
+
+      // 난이도 데이터 저장 (브라우저 새로고침 시 유지)
+      localStorage.setItem("difficulty", action.payload.difficulty);
 
       state.board = Array.from({ length: state.height }, () =>
         Array.from({ length: state.width }, () => ({

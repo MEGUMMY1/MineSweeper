@@ -9,12 +9,32 @@ export default function GamePage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const storedDifficulty = localStorage.getItem("difficulty") || "intermediate";
+
+    let width = 16,
+      height = 16,
+      mineCount = 40;
+    if (storedDifficulty === "beginner") {
+      width = 8;
+      height = 8;
+      mineCount = 10;
+    } else if (storedDifficulty === "expert") {
+      width = 16;
+      height = 32;
+      mineCount = 100;
+    } else if (storedDifficulty === "custom") {
+      // 커스텀 난이도 수정 要
+      width = 10;
+      height = 10;
+      mineCount = 15;
+    }
+
     dispatch(
       startGame({
-        width: 16,
-        height: 16,
-        mineCount: 40,
-        difficulty: "intermediate",
+        width,
+        height,
+        mineCount,
+        difficulty: storedDifficulty,
         firstClickX: 0,
         firstClickY: 0,
       })

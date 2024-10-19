@@ -1,11 +1,11 @@
-import { useDispatch } from "react-redux";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { startGame } from "../../redux/minesweeperSlice";
+import { RootState } from "../../redux/store";
 import styles from "./DifficultySelector.module.scss";
 
 export default function DifficultySelector() {
   const dispatch = useDispatch();
-  const [activeDifficulty, setActiveDifficulty] = useState<string | null>("intermediate");
+  const difficulty = useSelector((state: RootState) => state.minesweeper.difficulty);
 
   const handleStartGame = (
     width: number,
@@ -27,31 +27,30 @@ export default function DifficultySelector() {
     difficulty: string
   ) => {
     handleStartGame(width, height, mineCount, difficulty, x, y);
-    setActiveDifficulty(difficulty);
   };
 
   return (
     <div className={styles.container}>
       <button
-        className={`${styles.button} ${activeDifficulty === "beginner" ? styles.active : ""}`}
+        className={`${styles.button} ${difficulty === "beginner" ? styles.active : ""}`}
         onClick={() => handleButtonClick(0, 0, 8, 8, 10, "beginner")}
       >
         BEGINNER
       </button>
       <button
-        className={`${styles.button} ${activeDifficulty === "intermediate" ? styles.active : ""}`}
+        className={`${styles.button} ${difficulty === "intermediate" ? styles.active : ""}`}
         onClick={() => handleButtonClick(0, 0, 16, 16, 40, "intermediate")}
       >
         INTERMEDIATE
       </button>
       <button
-        className={`${styles.button} ${activeDifficulty === "expert" ? styles.active : ""}`}
+        className={`${styles.button} ${difficulty === "expert" ? styles.active : ""}`}
         onClick={() => handleButtonClick(0, 0, 16, 32, 100, "expert")}
       >
         EXPERT
       </button>
       <button
-        className={`${styles.button} ${activeDifficulty === "custom" ? styles.active : ""}`}
+        className={`${styles.button} ${difficulty === "custom" ? styles.active : ""}`}
         onClick={() => handleButtonClick(0, 0, 10, 10, 15, "custom")}
       >
         CUSTOM
