@@ -14,6 +14,7 @@ export default function GamePage() {
     let width = 16,
       height = 16,
       mineCount = 40;
+
     if (storedDifficulty === "beginner") {
       width = 8;
       height = 8;
@@ -23,10 +24,10 @@ export default function GamePage() {
       height = 32;
       mineCount = 100;
     } else if (storedDifficulty === "custom") {
-      // 커스텀 난이도 수정 要
-      width = 10;
-      height = 10;
-      mineCount = 15;
+      const customSettings = JSON.parse(localStorage.getItem("customSettings") || "{}");
+      width = customSettings.width || 10;
+      height = customSettings.height || 10;
+      mineCount = customSettings.mineCount || 15;
     }
 
     dispatch(

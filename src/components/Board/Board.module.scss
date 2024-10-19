@@ -6,17 +6,21 @@
 
   &.beginner {
     grid-template-columns: repeat(8, 30px);
+    grid-template-rows: repeat(8, 30px);
   }
 
   &.intermediate {
     grid-template-columns: repeat(16, 30px);
+    grid-template-rows: repeat(16, 30px);
   }
 
   &.expert {
     grid-template-columns: repeat(32, 30px);
+    grid-template-rows: repeat(16, 30px);
   }
 
   &.custom {
-    grid-template-columns: repeat(var(--columns), 1fr);
+    grid-template-columns: repeat(var(--columns), 30px);
+    grid-template-rows: repeat(var(--rows), 30px);
   }
 }

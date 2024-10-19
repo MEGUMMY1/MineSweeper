@@ -2,9 +2,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { startGame } from "../../redux/minesweeperSlice";
 import { RootState } from "../../redux/store";
 import styles from "./DifficultySelector.module.scss";
+import { useState } from "react";
+import Popup from "../Popup/Popup";
 
 export default function DifficultySelector() {
   const dispatch = useDispatch();
+  const [isPopupOpen, setPopupOpen] = useState(false);
   const difficulty = useSelector((state: RootState) => state.minesweeper.difficulty);
 
   const handleStartGame = (
@@ -29,6 +32,14 @@ export default function DifficultySelector() {
     handleStartGame(width, height, mineCount, difficulty, x, y);
   };
 
+  const handleOpenPopup = () => {
+    setPopupOpen(true);
+  };
+
+  const handleClosePopup = () => {
+    setPopupOpen(false);
+  };
+
   return (
     <div className={styles.container}>
       <button
@@ -51,10 +62,11 @@ export default function DifficultySelector() {
       </button>
       <button
         className={`${styles.button} ${difficulty === "custom" ? styles.active : ""}`}
-        onClick={() => handleButtonClick(0, 0, 10, 10, 15, "custom")}
+        onClick={handleOpenPopup}
       >
         CUSTOM
       </button>
+      {isPopupOpen && <Popup closePopup={handleClosePopup} />}
     </div>
   );
 }

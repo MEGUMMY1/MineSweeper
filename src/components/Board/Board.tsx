@@ -5,12 +5,19 @@ import styles from "./Board.module.scss";
 import Header from "../Header/Header";
 
 export default function Board() {
-  const { board, difficulty } = useSelector((state: RootState) => state.minesweeper);
+  const { board, difficulty, width, height } = useSelector((state: RootState) => state.minesweeper);
 
   return (
     <>
       <Header />
-      <div className={`${styles.board} ${styles[difficulty]}`}>
+      <div
+        className={`${styles.board} ${styles[difficulty]}`}
+        style={
+          difficulty === "custom"
+            ? ({ "--columns": width, "--rows": height } as React.CSSProperties)
+            : {}
+        }
+      >
         {board.map((row, y) => (
           <div key={y} className={styles.row}>
             {row.map((cell, x) => (
