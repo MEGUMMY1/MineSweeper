@@ -3,7 +3,7 @@ import { RootState } from "../../redux/store";
 import { flagCell, revealCell } from "../../redux/minesweeperSlice";
 import { CellProps } from "../../types/types";
 import styles from "./Cell.module.scss";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 export default function Cell({ cell, x, y }: CellProps) {
   const dispatch = useDispatch();
@@ -62,7 +62,7 @@ export default function Cell({ cell, x, y }: CellProps) {
     }
   };
 
-  const getCellClass = () => {
+  const cellClass = useMemo(() => {
     let className = styles.cell;
 
     if (cell.isRevealed) {
@@ -74,11 +74,11 @@ export default function Cell({ cell, x, y }: CellProps) {
       }
     }
     return className;
-  };
+  }, [cell.isRevealed, cell.isMine, cell.neighborCount]);
 
   return (
     <div
-      className={getCellClass()}
+      className={cellClass}
       onClick={handleClick}
       onContextMenu={handleContextMenu}
       onMouseDown={handleMouseDown}
